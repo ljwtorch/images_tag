@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Commands</title>
+</head>
+<body>
+<h1>Docker Commands Generator</h1>
+<p>Enter the Docker image name:</p>
+<input type="text" id="imageName" placeholder="Image name (e.g., nginx)">
+<button onclick="generateCommands()">Generate Commands</button>
+<div id="output"></div>
+
+<script>
+    function generateCommands() {
+        var imageName = document.getElementById("imageName").value;
+        var output = document.getElementById("output");
+        if (!imageName) {
+            output.innerHTML = "Please enter an image name.";
+            return;
+        }
+
+        // 提取镜像名称和标签
+        var image = imageName.split(":")[0];  // 提取镜像名称
+        var tag = imageName.split(":")[1] || "latest";    // 提取标签，如果没有指定则默认为latest
+
+        var pullCommand = "docker pull docker.3mz.cloudns.ch/library/" + image + ":" + tag;
+        var tagCommand = "docker tag docker.3mz.cloudns.ch/library/" + image + ":" + tag + " " + image + ":" + tag;
+        var rmiCommand = "docker rmi docker.3mz.cloudns.ch/library/" + image + ":" + tag;
+
+        output.innerHTML = "<pre>" + pullCommand + "\n" + tagCommand + "\n" + rmiCommand + "</pre>";
+    }
+</script>
+</body>
+</html>
